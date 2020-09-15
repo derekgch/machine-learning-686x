@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def randomization(n):
     """
     Arg:
@@ -7,10 +8,10 @@ def randomization(n):
     Returns:
       A - a randomly-generated nx1 Numpy array.
     """
-    #Your code here
+    # Your code here
     # raise NotImplementedError
     if n > 0:
-      return np.random.random([n,1])
+        return np.random.random([n, 1])
     return []
 
 
@@ -33,12 +34,12 @@ def operations(h, w):
       B - a randomly-generated h x w Numpy array.
       s - the sum of A and B.
     """
-    #Your code here
+    # Your code here
     # raise NotImplementedError
-    np_array_a = np.random.random((h,w))
-    np_array_b = np.random.random((h,w))
+    np_array_a = np.random.random((h, w))
+    np_array_b = np.random.random((h, w))
     # matrix_a = np.asmatrix(np_array_a)
-    return [np_array_a,np_array_b, np_array_a + np_array_b]
+    return [np_array_a, np_array_b, np_array_a + np_array_b]
 
 # print(operations(3,4))
 # print(operations(5,6))
@@ -57,7 +58,7 @@ def norm(A, B):
       s - the L2 norm of A+B.
     """
     return np.linalg.norm(A+B)
-    #Your code here
+    # Your code here
     # raise NotImplementedError
 
 # array_n1 = operations(3,4)
@@ -77,30 +78,37 @@ def neural_network(inputs, weights):
      Returns (in this order):
        out - a 1 x 1 NumPy array, representing the output of the neural network
     """
-    #Your code here
-    raise NotImplementedError
+    # Your code here
+    # raise NotImplementedError
+    product = inputs*weights
+    return np.array([[np.tanh(np.sum(product))]])
+
+
+print(neural_network(np.array([1, 2]), np.array([2, 3])))
+
 
 def scalar_function(x, y):
     """
     Returns the f(x,y) defined in the problem statement.
     """
-    #Your code here
+    # Your code here
     # raise NotImplementedError
     if(x > y):
-      return x/y
+        return x/y
     else:
-      return x*y
+        return x*y
 
 # print(scalar_function(10,3))
 # print(scalar_function(3,10))
+
 
 def vector_function(x, y):
     """
     Make sure vector_function can deal with vector input x,y 
     """
-    #Your code here
+    # Your code here
     # raise NotImplementedError
     v_fn = np.vectorize(scalar_function)
-    return v_fn(x,y)
+    return v_fn(x, y)
 
-print(vector_function([10,2],[3,4]))
+# print(vector_function([10,2],[3,4]))
