@@ -8,17 +8,19 @@ We recommend that you install the latest version of Miniconda from https://docs.
 
 You can then create a conda environment for this course using
 
-`conda create -n 6.86x python=3.6`
+- `conda create -n 6.86x python=3.6`
+
 To activate this environment, use
 
-`conda activate 6.86x`
+- `conda activate 6.86x`
+
 Finally, install all of the required packages:
 
-`conda install pytorch -c pytorch`
-`pip install numpy`
-`pip install matplotlib`
-`pip install scipy`
-`pip install tqdm`
-`pip install scikit-learn`
+- `conda install pytorch -c pytorch`
+- `pip install numpy`
+- `pip install matplotlib`
+- `pip install scipy`
+- `pip install tqdm`
+- `pip install scikit-learn`
 
 - Use `python3 -m pip install` if the above `pip install` does not work
