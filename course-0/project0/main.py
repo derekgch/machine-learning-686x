@@ -85,12 +85,22 @@ def scalar_function(x, y):
     Returns the f(x,y) defined in the problem statement.
     """
     #Your code here
-    raise NotImplementedError
+    # raise NotImplementedError
+    if(x > y):
+      return x/y
+    else:
+      return x*y
+
+# print(scalar_function(10,3))
+# print(scalar_function(3,10))
 
 def vector_function(x, y):
     """
     Make sure vector_function can deal with vector input x,y 
     """
     #Your code here
-    raise NotImplementedError
+    # raise NotImplementedError
+    v_fn = np.vectorize(scalar_function)
+    return v_fn(x,y)
 
+print(vector_function([10,2],[3,4]))
