@@ -106,7 +106,17 @@ def perceptron_single_step_update(
     completed.
     """
     # Your code here
-    raise NotImplementedError
+    result_z = label * \
+        (np.dot(current_theta, feature_vector) + current_theta_0)
+
+    if result_z <= 0:
+        new_theta = current_theta + label*feature_vector
+        new_theta_0 = current_theta_0 + label
+        return (new_theta, new_theta_0)
+    else:
+        return(current_theta, current_theta_0)
+
+    # raise NotImplementedError
 # pragma: coderesponse end
 
 
@@ -136,12 +146,15 @@ def perceptron(feature_matrix, labels, T):
     theta_0, the offset classification parameter, after T iterations through
     the feature matrix.
     """
-    # Your code here
+    theta = [0 for i in range(len(feature_matrix[0]))]
+    theta_0 = 0
     for t in range(T):
         for i in get_order(feature_matrix.shape[0]):
-            # Your code here
-            pass
-    raise NotImplementedError
+            result = perceptron_single_step_update(
+                feature_matrix[i], labels[i], theta, theta_0)
+            theta = result[0]
+            theta_0 = result[1]
+    return (theta, theta_0)
 # pragma: coderesponse end
 
 
@@ -176,7 +189,23 @@ def average_perceptron(feature_matrix, labels, T):
     find a sum and divide.
     """
     # Your code here
-    raise NotImplementedError
+    theta = [0 for i in range(len(feature_matrix[0]))]
+    theta_0 = 0
+    theta_total = [0 for i in range(len(feature_matrix[0]))]
+    theta_0_total = 0
+    total_update = 0
+    for t in range(T):
+        for i in get_order(feature_matrix.shape[0]):
+            result = perceptron_single_step_update(
+                feature_matrix[i], labels[i], theta, theta_0)
+            theta = result[0]
+            theta_0 = result[1]
+            total_update += 1
+            theta_total = theta_total + theta
+            theta_0_total = theta_0_total + theta_0
+
+    return (theta_total/total_update, theta_0_total/total_update)
+    # raise NotImplementedError
 # pragma: coderesponse end
 
 
