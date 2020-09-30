@@ -5,7 +5,7 @@ import random
 # Part I
 
 
-#pragma: coderesponse template
+# pragma: coderesponse template
 def get_order(n_samples):
     try:
         with open(str(n_samples) + '.txt') as fp:
@@ -16,10 +16,10 @@ def get_order(n_samples):
         indices = list(range(n_samples))
         random.shuffle(indices)
         return indices
-#pragma: coderesponse end
+# pragma: coderesponse end
 
 
-#pragma: coderesponse template
+# pragma: coderesponse template
 def hinge_loss_single(feature_vector, label, theta, theta_0):
     """
     Finds the hinge loss on a single data point given specific classification
@@ -35,13 +35,20 @@ def hinge_loss_single(feature_vector, label, theta, theta_0):
 
     Returns: A real number representing the hinge loss associated with the
     given data point and parameters.
+    loss fn = Loss_h(y^i*(theta dot x^i + theta_0)) 
+    Z = y^i*(theta dot x^i + theta_0)
+    loss_h = 0 if Z >=1, 1-Z if < 1
     """
     # Your code here
-    raise NotImplementedError
-#pragma: coderesponse end
+    result_z = label*(np.dot(theta, feature_vector) + theta_0)
+    if result_z < 1:
+        return 1-result_z
+    else:
+        return 0
+# pragma: coderesponse end
 
 
-#pragma: coderesponse template
+# pragma: coderesponse template
 def hinge_loss_full(feature_matrix, labels, theta, theta_0):
     """
     Finds the total hinge loss on a set of data given specific classification
@@ -61,11 +68,21 @@ def hinge_loss_full(feature_matrix, labels, theta, theta_0):
     loss across all of the points in the feature matrix.
     """
     # Your code here
-    raise NotImplementedError
-#pragma: coderesponse end
+    total_z = 0
+    count = 0
+    for feature_vector in feature_matrix:
+        result_z = labels[count]*(np.dot(theta, feature_vector) + theta_0)
+        if result_z < 1:
+            total_z += 1-result_z
+        count += 1
+
+    return total_z/len(feature_matrix)
+
+    # raise NotImplementedError
+# pragma: coderesponse end
 
 
-#pragma: coderesponse template
+# pragma: coderesponse template
 def perceptron_single_step_update(
         feature_vector,
         label,
@@ -90,10 +107,10 @@ def perceptron_single_step_update(
     """
     # Your code here
     raise NotImplementedError
-#pragma: coderesponse end
+# pragma: coderesponse end
 
 
-#pragma: coderesponse template
+# pragma: coderesponse template
 def perceptron(feature_matrix, labels, T):
     """
     Runs the full perceptron algorithm on a given set of data. Runs T
@@ -125,10 +142,10 @@ def perceptron(feature_matrix, labels, T):
             # Your code here
             pass
     raise NotImplementedError
-#pragma: coderesponse end
+# pragma: coderesponse end
 
 
-#pragma: coderesponse template
+# pragma: coderesponse template
 def average_perceptron(feature_matrix, labels, T):
     """
     Runs the average perceptron algorithm on a given set of data. Runs T
@@ -160,10 +177,10 @@ def average_perceptron(feature_matrix, labels, T):
     """
     # Your code here
     raise NotImplementedError
-#pragma: coderesponse end
+# pragma: coderesponse end
 
 
-#pragma: coderesponse template
+# pragma: coderesponse template
 def pegasos_single_step_update(
         feature_vector,
         label,
@@ -192,10 +209,10 @@ def pegasos_single_step_update(
     """
     # Your code here
     raise NotImplementedError
-#pragma: coderesponse end
+# pragma: coderesponse end
 
 
-#pragma: coderesponse template
+# pragma: coderesponse template
 def pegasos(feature_matrix, labels, T, L):
     """
     Runs the Pegasos algorithm on a given set of data. Runs T
@@ -227,12 +244,12 @@ def pegasos(feature_matrix, labels, T, L):
     """
     # Your code here
     raise NotImplementedError
-#pragma: coderesponse end
+# pragma: coderesponse end
 
 # Part II
 
 
-#pragma: coderesponse template
+# pragma: coderesponse template
 def classify(feature_matrix, theta, theta_0):
     """
     A classification function that uses theta and theta_0 to classify a set of
@@ -252,10 +269,10 @@ def classify(feature_matrix, theta, theta_0):
     """
     # Your code here
     raise NotImplementedError
-#pragma: coderesponse end
+# pragma: coderesponse end
 
 
-#pragma: coderesponse template
+# pragma: coderesponse template
 def classifier_accuracy(
         classifier,
         train_feature_matrix,
@@ -290,10 +307,10 @@ def classifier_accuracy(
     """
     # Your code here
     raise NotImplementedError
-#pragma: coderesponse end
+# pragma: coderesponse end
 
 
-#pragma: coderesponse template
+# pragma: coderesponse template
 def extract_words(input_string):
     """
     Helper function for bag_of_words()
@@ -305,10 +322,10 @@ def extract_words(input_string):
         input_string = input_string.replace(c, ' ' + c + ' ')
 
     return input_string.lower().split()
-#pragma: coderesponse end
+# pragma: coderesponse end
 
 
-#pragma: coderesponse template
+# pragma: coderesponse template
 def bag_of_words(texts):
     """
     Inputs a list of string reviews
@@ -317,17 +334,17 @@ def bag_of_words(texts):
     Feel free to change this code as guided by Problem 9
     """
     # Your code here
-    dictionary = {} # maps word to unique index
+    dictionary = {}  # maps word to unique index
     for text in texts:
         word_list = extract_words(text)
         for word in word_list:
             if word not in dictionary:
                 dictionary[word] = len(dictionary)
     return dictionary
-#pragma: coderesponse end
+# pragma: coderesponse end
 
 
-#pragma: coderesponse template
+# pragma: coderesponse template
 def extract_bow_feature_vectors(reviews, dictionary):
     """
     Inputs a list of string reviews
@@ -349,14 +366,14 @@ def extract_bow_feature_vectors(reviews, dictionary):
             if word in dictionary:
                 feature_matrix[i, dictionary[word]] = 1
     return feature_matrix
-#pragma: coderesponse end
+# pragma: coderesponse end
 
 
-#pragma: coderesponse template
+# pragma: coderesponse template
 def accuracy(preds, targets):
     """
     Given length-N vectors containing predicted and target labels,
     returns the percentage and number of correct predictions.
     """
     return (preds == targets).mean()
-#pragma: coderesponse end
+# pragma: coderesponse end
