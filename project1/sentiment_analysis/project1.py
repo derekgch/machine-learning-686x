@@ -237,15 +237,6 @@ def pegasos_single_step_update(
     completed.
     """
 
-    # feature_vector = [0.20644108,  0.15150006, 0.37668242, - 0.15986255, 0.47344944, - 0.36636078,
-    #                   0.4853967, 0.48804959, 0.09640716, 0.02104481]
-    # label = 1
-    # L = 0.9522620931529241
-    # eta = 0.6026769346847507
-    # current_theta = [-0.03587842, - 0.18309952, - 0.34916632,  0.3870211, - 0.11334721, - 0.05073045,
-    #                  - 0.46495989, - 0.23725286, - 0.07511907, - 0.48210357]
-    # current_theta_0 = 2.3327583764714896
-
     result_z = label*(np.dot(current_theta, feature_vector) + current_theta_0)
     if result_z <= 1:
         new_theta = np.dot((1-eta*L), current_theta) + \
@@ -291,8 +282,40 @@ def pegasos(feature_matrix, labels, T, L):
     number with the value of the theta_0, the offset classification
     parameter, found after T iterations through the feature matrix.
     """
+    theta = [0 for i in range(len(feature_matrix[0]))]
+    theta_0 = 0
+    counter = 0
     # Your code here
-    raise NotImplementedError
+
+    def single_update(feature_vector,
+                      label,
+                      L,
+                      eta,
+                      current_theta,
+                      current_theta_0):
+        result_z = label * \
+            (np.dot(current_theta, feature_vector) + current_theta_0)
+        if result_z <= 1:
+            new_theta = np.dot((1-eta*L), current_theta) + \
+                np.dot(eta*label, feature_vector)
+            new_theta_0 = current_theta_0 + eta*label
+            return new_theta, new_theta_0
+        else:
+            new_theta = (1-eta*L) * current_theta
+            return new_theta, current_theta_0
+
+    for t in range(T):
+        for i in get_order(feature_matrix.shape[0]):
+            counter += 1
+            eta = 1 / counter ** 0.5
+            result = single_update(
+                feature_matrix[i], labels[i], L, eta, theta, theta_0)
+            theta = result[0]
+            theta_0 = result[1]
+
+    return (theta, theta_0)
+
+    # raise NotImplementedError
 # pragma: coderesponse end
 
 # Part II
