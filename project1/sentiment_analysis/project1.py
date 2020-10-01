@@ -236,8 +236,28 @@ def pegasos_single_step_update(
     real valued number with the value of theta_0 after the current updated has
     completed.
     """
+
+    # feature_vector = [0.20644108,  0.15150006, 0.37668242, - 0.15986255, 0.47344944, - 0.36636078,
+    #                   0.4853967, 0.48804959, 0.09640716, 0.02104481]
+    # label = 1
+    # L = 0.9522620931529241
+    # eta = 0.6026769346847507
+    # current_theta = [-0.03587842, - 0.18309952, - 0.34916632,  0.3870211, - 0.11334721, - 0.05073045,
+    #                  - 0.46495989, - 0.23725286, - 0.07511907, - 0.48210357]
+    # current_theta_0 = 2.3327583764714896
+
+    result_z = label*(np.dot(current_theta, feature_vector) + current_theta_0)
+    if result_z <= 1:
+        new_theta = np.dot((1-eta*L), current_theta) + \
+            np.dot(eta*label, feature_vector)
+        new_theta_0 = current_theta_0 + eta*label
+        return new_theta, new_theta_0
+    else:
+        new_theta = (1-eta*L) * current_theta
+        return new_theta, current_theta_0
+
     # Your code here
-    raise NotImplementedError
+    # raise NotImplementedError
 # pragma: coderesponse end
 
 
