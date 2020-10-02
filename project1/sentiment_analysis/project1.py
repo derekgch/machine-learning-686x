@@ -387,7 +387,16 @@ def classifier_accuracy(
     accuracy of the trained classifier on the validation data.
     """
     # Your code here
-    raise NotImplementedError
+    result_classifier = classifier(
+        train_feature_matrix, train_labels, **kwargs)
+    theta = result_classifier[0]
+    theta_0 = result_classifier[1]
+
+    train_data_classify = classify(train_feature_matrix, theta, theta_0)
+    validate_data_classify = classify(val_feature_matrix, theta, theta_0)
+
+    return accuracy(train_data_classify, train_labels), accuracy(validate_data_classify, val_labels)
+    # raise NotImplementedError
 # pragma: coderesponse end
 
 
