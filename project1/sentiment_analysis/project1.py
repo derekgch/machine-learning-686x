@@ -340,7 +340,16 @@ def classify(feature_matrix, theta, theta_0):
     be considered a positive classification.
     """
     # Your code here
-    raise NotImplementedError
+    classifies = []
+    for vector in feature_matrix:
+        result = theta_0 + np.dot(vector, theta)
+        if result > 0:
+            classifies.append(1)
+        else:
+            classifies.append(-1)
+
+    return np.array(classifies)
+    # raise NotImplementedError
 # pragma: coderesponse end
 
 
