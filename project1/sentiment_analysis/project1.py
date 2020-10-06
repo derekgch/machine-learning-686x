@@ -451,16 +451,25 @@ def extract_bow_feature_vectors(reviews, dictionary):
     Feel free to change this code as guided by Problem 9
     """
     # Your code here
-    print(reviews, dictionary)
+    # print('reviews:', reviews)
+    # print('dictionary:', dictionary)
     num_reviews = len(reviews)
     feature_matrix = np.zeros([num_reviews, len(dictionary)])
 
     for i, text in enumerate(reviews):
         word_list = extract_words(text)
+        word_count = {}
+
+        for word in word_list:
+            if word in word_count:
+                word_count[word] += 1
+            else:
+                word_count[word] = 1
+
         for word in word_list:
             if word in dictionary:
-                feature_matrix[i, dictionary[word]] = 1
-    print(feature_matrix)
+                feature_matrix[i, dictionary[word]] = word_count[word]
+    # print('feature_matrix:', feature_matrix)
     return feature_matrix
 # pragma: coderesponse end
 
