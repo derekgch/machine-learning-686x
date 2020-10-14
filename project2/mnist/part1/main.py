@@ -1,13 +1,13 @@
+from kernel import *
+from features import *
+from softmax import *
+from svm import *
+from linear_regression import *
+from utils import *
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
 sys.path.append("..")
-from utils import *
-from linear_regression import *
-from svm import *
-from softmax import *
-from features import *
-from kernel import *
 
 #######################################################################
 # 1. Introduction
@@ -41,7 +41,12 @@ def run_linear_regression_on_MNIST(lambda_factor=1):
 
 
 # Don't run this until the relevant functions in linear_regression.py have been fully implemented.
-print('Linear Regression test_error =', run_linear_regression_on_MNIST(lambda_factor=1))
+print('Linear Regression test_error =',
+      run_linear_regression_on_MNIST(lambda_factor=1))
+print('Linear Regression test_error =',
+      run_linear_regression_on_MNIST(lambda_factor=0.1))
+print('Linear Regression test_error =',
+      run_linear_regression_on_MNIST(lambda_factor=0.01))
 
 
 #######################################################################
@@ -106,7 +111,8 @@ def run_softmax_on_MNIST(temp_parameter=1):
         Final test error
     """
     train_x, train_y, test_x, test_y = get_MNIST_data()
-    theta, cost_function_history = softmax_regression(train_x, train_y, temp_parameter, alpha=0.3, lambda_factor=1.0e-4, k=10, num_iterations=150)
+    theta, cost_function_history = softmax_regression(
+        train_x, train_y, temp_parameter, alpha=0.3, lambda_factor=1.0e-4, k=10, num_iterations=150)
     plot_cost_function_over_time(cost_function_history)
     test_error = compute_test_error(test_x, test_y, theta, temp_parameter)
     # Save the model parameters theta obtained from calling softmax_regression to disk.
@@ -125,7 +131,6 @@ print('softmax test_error=', run_softmax_on_MNIST(temp_parameter=1))
 #######################################################################
 # 6. Changing Labels
 #######################################################################
-
 
 
 def run_softmax_on_MNIST_mod3(temp_parameter=1):
@@ -152,7 +157,7 @@ def run_softmax_on_MNIST_mod3(temp_parameter=1):
 
 n_components = 18
 
-###Correction note:  the following 4 lines have been modified since release.
+# Correction note:  the following 4 lines have been modified since release.
 train_x_centered, feature_means = center_data(train_x)
 pcs = principal_components(train_x_centered)
 train_pca = project_onto_PC(train_x, pcs, n_components, feature_means)
@@ -169,18 +174,21 @@ test_pca = project_onto_PC(test_x, pcs, n_components, feature_means)
 # TODO: Use the plot_PC function in features.py to produce scatterplot
 #       of the first 100 MNIST images, as represented in the space spanned by the
 #       first 2 principal components found above.
-plot_PC(train_x[range(000, 100), ], pcs, train_y[range(000, 100)], feature_means)#feature_means added since release
+plot_PC(train_x[range(000, 100), ], pcs, train_y[range(000, 100)],
+        feature_means)  # feature_means added since release
 
 
 # TODO: Use the reconstruct_PC function in features.py to show
 #       the first and second MNIST images as reconstructed solely from
 #       their 18-dimensional principal component representation.
 #       Compare the reconstructed images with the originals.
-firstimage_reconstructed = reconstruct_PC(train_pca[0, ], pcs, n_components, train_x, feature_means)#feature_means added since release
+firstimage_reconstructed = reconstruct_PC(
+    train_pca[0, ], pcs, n_components, train_x, feature_means)  # feature_means added since release
 plot_images(firstimage_reconstructed)
 plot_images(train_x[0, ])
 
-secondimage_reconstructed = reconstruct_PC(train_pca[1, ], pcs, n_components, train_x, feature_means)#feature_means added since release
+secondimage_reconstructed = reconstruct_PC(
+    train_pca[1, ], pcs, n_components, train_x, feature_means)  # feature_means added since release
 plot_images(secondimage_reconstructed)
 plot_images(train_x[1, ])
 
