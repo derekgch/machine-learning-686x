@@ -65,8 +65,15 @@ def compute_cost_function(X, Y, theta, lambda_factor, temp_parameter):
     Returns
         c - the cost value (scalar)
     """
-    # YOUR CODE HERE
-    raise NotImplementedError
+    K_number = theta.shape[0]
+    N_number = X.shape[0]
+    clip_prob_matrix = np.clip(compute_probabilities(X, theta, temp_parameter), 1e-15, 1-1e-15)
+    log_clip_matrix = np.log(clip_prob_matrix)
+    M = sparse.coo_matrix(([1]*N_number, (Y, range(N_number))), shape = (K_number,N_number)).toarray()
+    error_term = (-1/N_number)*np.sum(log_clip_matrix[M == 1])    
+    reg_term = (lambda_factor/2)*np.linalg.norm(theta)**2
+    
+    return error_term + reg_term
 
 
 def run_gradient_descent_iteration(X, Y, theta, alpha, lambda_factor, temp_parameter):
@@ -86,9 +93,12 @@ def run_gradient_descent_iteration(X, Y, theta, alpha, lambda_factor, temp_param
     Returns:
         theta - (k, d) NumPy array that is the final value of parameters theta
     """
-    # YOUR CODE HERE
-    raise NotImplementedError
-
+    k_num = theta.shape[0]
+    n_num = X.shape[0]
+    M = sparse.coo_matrix(([1]*n_num, (Y, range(n_num))), shape=(k_num,n_num)).toarray()
+    P = compute_probabilities(X, theta, temp_parameter)
+    grad_theta = (-1/(temp_parameter*n_num))*((M - P) @ X) + lambda_factor*theta
+    return theta - alpha*grad_theta
 
 def update_y(train_y, test_y):
     """
@@ -107,8 +117,7 @@ def update_y(train_y, test_y):
         test_y_mod3 - (n, ) NumPy array containing the new labels (a number between 0-2)
                     for each datapoint in the test set
     """
-    # YOUR CODE HERE
-    raise NotImplementedError
+    return (np.mod(train_y, 3), np.mod(test_y, 3))
 
 
 def compute_test_error_mod3(X, Y, theta, temp_parameter):
@@ -126,8 +135,9 @@ def compute_test_error_mod3(X, Y, theta, temp_parameter):
     Returns:
         test_error - the error rate of the classifier (scalar)
     """
-    # YOUR CODE HERE
-    raise NotImplementedError
+    y_prediction = get_classification(X, theta, temp_parameter)
+    
+    return 1 - (np.mod(y_prediction, 3) == Y).mean()
 
 
 def softmax_regression(X, Y, temp_parameter, alpha, lambda_factor, k, num_iterations):

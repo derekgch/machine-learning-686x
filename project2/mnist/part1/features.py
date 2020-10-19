@@ -16,7 +16,20 @@ def project_onto_PC(X, pcs, n_components, feature_means):
     #       of the eigenvectors returned by principal_components().
     #       Note that each eigenvector is already be a unit-vector,
     #       so the projection may be done using matrix multiplication.
-    raise NotImplementedError
+    
+    #     To project on first n principal components it is necessary to slice pcs matrix, given as input to function
+
+    # project_onto_PC(X, pcs, n_components, feature_means)
+    # Copying slices could be performed using the following line of code:
+
+    # pcs_local = pcs[0:pcs.shape[0], 0:n_components]
+    # After obtaining proper pcs_local it is necessary to calculate a dot-product of this reduced matrix and original input matrix, provided to this function as X. Just don't forget to subtract feature_mean from values of X before calculating dot-product.
+
+    # This is how dimensionality reduction works.
+
+    X_centered = X - feature_means
+    pcs_local = pcs[0:pcs.shape[0], 0:n_components]
+    return np.matmul(X_centered,pcs_local)
 
 
 ### Functions which are already complete, for you to use ###
