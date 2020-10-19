@@ -20,7 +20,7 @@ def closed_form(X, Y, lambda_factor):
     theta = (X^T * X + lambda*IdentityMatrix)^-1 * X^T*Y
     """
     # YOUR CODE HERE
-    print(X, Y, lambda_factor)
+    # print(X, Y, lambda_factor)
     length_of_X = len(X[0])
     x_transpose = np.transpose(X)
     # print('x_transpose \n', x_transpose)
